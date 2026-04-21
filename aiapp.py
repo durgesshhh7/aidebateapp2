@@ -127,7 +127,7 @@ st.markdown(f"""
 # ---------- HOME ----------
 if st.session_state.page == "home":
 
-    st.markdown('<div class="title">AI Debate Intelligence</div>', unsafe_allow_html=True)
+    st.markdown('<div class="title">Multimind AI</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Experience AI arguing both sides of reality</div>', unsafe_allow_html=True)
 
     st.markdown("""
@@ -262,3 +262,4 @@ if st.session_state.page == "debate":
     if st.button("⬅ Back", key="back_btn"):
         st.session_state.page = "home"
         st.rerun()
+
