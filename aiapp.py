@@ -178,7 +178,7 @@ if st.session_state.page == "home":
     # ✅ FOOTER ONLY ON HOME PAGE
     st.markdown("""
     <div class="footer">
-      <p><strong>Team:</strong> Durgesh Rajpurohit • Vansh • Vijayalaxmi • Srishti</p>
+      <p><strong>Built By:</strong> Durgesh Rajpurohit • Vansh • Vijayalaxmi • Srishti</p>
       <p>© 2026 AI Debate Project | All Rights Reserved</p>
     </div>
     """, unsafe_allow_html=True)
