@@ -262,4 +262,3 @@ if st.session_state.page == "debate":
     if st.button("⬅ Back", key="back_btn"):
         st.session_state.page = "home"
         st.rerun()
-
