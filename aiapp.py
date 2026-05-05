@@ -13,11 +13,11 @@ def get_base64_image(image_file):
 
 bg_image = get_base64_image("bg.jpg")
 
-# ---------- PAGE STATE ----------
+# Page state
 if "page" not in st.session_state:
     st.session_state.page = "home"
 
-# ---------- MEMORY ----------
+# Memory
 MEMORY_FILE = "memory.json"
 
 def load_memory():
@@ -30,7 +30,7 @@ def save_memory(memory):
     with open(MEMORY_FILE, "w") as f:
         json.dump(memory, f, indent=4)
 
-# ---------- AI ----------
+# AI
 def ask_ai(role, topic):
 
     if topic == "Should AI replace teachers?":
@@ -79,7 +79,7 @@ def ask_ai(role, topic):
         confidence = random.randint(65, 95)
         return f"Balanced decision needed.\n\nConfidence Score: {confidence}%"
 
-# ---------- CONFIG ----------
+# UI CONFIG
 st.set_page_config(page_title="AI Debate System")
 
 # ---------- CSS ----------
@@ -113,11 +113,6 @@ st.markdown(f"""
     border-radius: 16px;
     margin-bottom: 20px;
     backdrop-filter: blur(10px);
-    transition: 0.3s;
-}}
-
-.card:hover {{
-    transform: scale(1.02);
 }}
 
 .stButton > button {{
@@ -125,33 +120,6 @@ st.markdown(f"""
     color: black;
     border-radius: 10px;
     width: 100%;
-}}
-
-.footer {{
-    position: fixed;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 600px;
-
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    border-radius: 12px;
-    padding: 10px;
-
-    text-align: center;
-    font-size: 14px;
-    color: #FFF7E2;
-
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-}}
-
-.footer:hover {{
-    transform: translateX(-50%) scale(1.02);
-    transition: 0.3s;
 }}
 </style>
 """, unsafe_allow_html=True)
@@ -175,15 +143,30 @@ if st.session_state.page == "home":
             st.session_state.page = "debate"
             st.rerun()
 
-    # ✅ FOOTER ONLY ON HOME PAGE
+    # ✅ FOOTER (ONLY ADDITION)
     st.markdown("""
-    <div class="footer">
-      <p><strong>Built By:</strong> Durgesh Rajpurohit • Vansh • Vijayalaxmi • Srishti</p>
+    <div style="
+        position: fixed;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 600px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        color: #FFF7E2;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    ">
+      <p><strong>Built by:</strong> Durgesh Rajpurohit • Vansh • Vijayalaxmi • Srishti</p>
       <p>© 2026 AI Debate Project | All Rights Reserved</p>
     </div>
     """, unsafe_allow_html=True)
 
-# ---------- TOPICS ----------
+# Topics
 topics = [
     "Should AI replace teachers?",
     "Is social media harmful to society?",
@@ -199,11 +182,63 @@ topics = [
 def show_ai_animation():
     components.html("""
     <html>
-    <body style="text-align:center; color:white;">
-        <h3>AI is connecting ideas...</h3>
+    <head>
+    <style>
+        body {
+            margin: 0;
+            background: transparent;
+            color: white;
+            font-family: sans-serif;
+            text-align: center;
+        }
+
+        svg {
+            width: 300px;
+            height: 200px;
+            margin-top: 20px;
+        }
+
+        .node {
+            fill: #8BA194;
+            animation: pulse 1.5s infinite;
+        }
+
+        .line {
+            stroke: #8BA194;
+            stroke-width: 2;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: draw 2s ease forwards;
+        }
+
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes pulse {
+            0% { r: 4; opacity: 0.6; }
+            50% { r: 6; opacity: 1; }
+            100% { r: 4; opacity: 0.6; }
+        }
+    </style>
+    </head>
+
+    <body>
+    <svg viewBox="0 0 300 200">
+        <line x1="50" y1="50" x2="150" y2="100" class="line"/>
+        <line x1="150" y1="100" x2="50" y2="150" class="line"/>
+        <line x1="150" y1="100" x2="250" y2="80" class="line"/>
+
+        <circle cx="50" cy="50" r="5" class="node"/>
+        <circle cx="150" cy="100" r="5" class="node"/>
+        <circle cx="50" cy="150" r="5" class="node"/>
+        <circle cx="250" cy="80" r="5" class="node"/>
+    </svg>
+
+    <h3>AI is connecting ideas...</h3>
     </body>
     </html>
-    """, height=200)
+    """, height=260)
 
 # ---------- DEBATE ----------
 if st.session_state.page == "debate":
@@ -212,14 +247,14 @@ if st.session_state.page == "debate":
 
     topic = st.selectbox("Choose Topic", topics)
 
-    if st.button("Run Debate"):
+    if st.button("Run Debate", key="run_btn"):
 
         placeholder = st.empty()
 
         with placeholder:
             show_ai_animation()
 
-        time.sleep(3)
+        time.sleep(5)
         placeholder.empty()
 
         memory = load_memory()
@@ -239,6 +274,6 @@ if st.session_state.page == "debate":
 
         st.success("Memory updated! 🚀")
 
-    if st.button("⬅ Back"):
+    if st.button("⬅ Back", key="back_btn"):
         st.session_state.page = "home"
         st.rerun()
